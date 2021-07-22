@@ -64,7 +64,7 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	@JoinTable(name = "product_pictures", 
 			joinColumns = { @JoinColumn(name = "product_id") }, 
 			inverseJoinColumns = { @JoinColumn(name = "picture_id") }) 
-	@BatchSize(size = 100)
+	
 	private Set<Picture> pictures = new HashSet<>();
 	
 	public void addPicture(Picture entity) {

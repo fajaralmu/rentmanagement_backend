@@ -34,6 +34,7 @@ public class ImageUploadService {
 		}
 		MultipleImageModel existingImageModel = (MultipleImageModel) existingRecord;
 		for (Picture picture : existingImageModel.getPictures()) {
+			entityRepository.deleteById(picture.getId(), Picture.class);
 			imageRemovalService.removeImage(picture.getName());
 		}
 	}
@@ -72,9 +73,6 @@ public class ImageUploadService {
 		if (0 == savedPictures.size()) {
 			return null;
 		}
-//
-//		String[] arrayOfString = imageUrls.toArray(new String[] {});
-//		CollectionUtil.printArray(arrayOfString);
 
 		multipleImageModel.setPictures(savedPictures);
 
@@ -95,42 +93,32 @@ public class ImageUploadService {
 		if (rawImageList == null || rawImageList.size() == 0 || exixstingMultipleImageModel == null) {
 			return null;
 		}
-		final boolean oldValueExist = exixstingMultipleImageModel.getPictures().size() > 0;
-		final Set<Picture> oldPictures = oldValueExist ? multipleImageModel.getPictures() : new HashSet<>();
 		final Set<Picture> saved = new HashSet<>();
 		// loop
 		log.info("rawImageList length: {}", rawImageList.size());
 		for (Picture picture : rawImageList) {
-			final String rawImage = picture.getBase64Data();
-			if (rawImage == null || rawImage.equals(""))
-				continue;
-			String imageName = null;
-			if (isBase64Image(rawImage)) {
+			if (isBase64Image( picture.getBase64Data())) {
 				try {
-					imageName = fileService.writeImage(multipleImageModel.getClass().getSimpleName(), rawImage, httpServletRequest);
+					String imageName = fileService.writeImage(multipleImageModel.getClass().getSimpleName(), picture.getBase64Data(), httpServletRequest);
 					log.info("saved base64 image {}", imageName);
+					saved.add(picture.withName(imageName));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
-
-				if (oldValueExist && pictureExist(rawImage, oldPictures)) {
-					imageName = rawImage;
+				if (picture.getId() != null) {
+					Picture pictureRecord = entityRepository.findById(Picture.class, picture.getId());
+					if (null != pictureRecord ) {
+						saved.add(pictureRecord);
+					}
 				}
 			}
-
-			if (imageName != null) {
-				saved.add(picture.withName(imageName));;
-			}
+ 
 		}
 		if (saved.size() == 0) {
 			return null;
 		}
-
-//		String[] arrayOfString = imageUrls.toArray(new String[] {});
-//		CollectionUtil.printArray(arrayOfString);
-
-//		String imageUrlArray = String.join("~", arrayOfString);
+		log.info("saved pictures: {}", saved.size());
 		multipleImageModel.setPictures(saved);
 
 		return saved;
@@ -148,6 +136,6 @@ public class ImageUploadService {
 
 	private boolean isBase64Image(String rawImage) {
 
-		return rawImage.startsWith("data:image");
+		return rawImage != null && rawImage.startsWith("data:image");
 	}
 }
