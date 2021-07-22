@@ -1,6 +1,5 @@
 package com.fajar.rentmanagement.entity;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fajar.rentmanagement.annotation.CustomEntity;
+import com.fajar.rentmanagement.dto.model.ProductModel;
 import com.fajar.rentmanagement.dto.model.UserModel;
-import com.fajar.rentmanagement.entity.setting.SingleImageModel;
+import com.fajar.rentmanagement.entity.setting.MultipleImageModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends BaseEntity<UserModel> implements SingleImageModel {
+public class User extends BaseEntity<UserModel> implements MultipleImageModel {
 
 	/**
 	 * 
@@ -54,7 +54,17 @@ public class User extends BaseEntity<UserModel> implements SingleImageModel {
 			inverseJoinColumns = { @JoinColumn(name = "authority_id") }) 
 	@Default
 	private Set<Authority> authorities = new HashSet<>();
-
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+	@JoinTable(name = "user_pictures", 
+			joinColumns = { @JoinColumn(name = "user_id") }, 
+			inverseJoinColumns = { @JoinColumn(name = "picture_id") }) 
+	@Default
+	private Set<Picture> pictures = new HashSet<>();
+	
+	public void addPicture(Picture entity) {
+		validatePictures();
+		pictures.add(entity);
+	}
 	public void addAuthority(Authority authority) {
 		authorities.add(authority);
 	}
@@ -63,19 +73,18 @@ public class User extends BaseEntity<UserModel> implements SingleImageModel {
 	@JsonIgnore
 	private String requestId;
 
-	@Transient
-	@JsonIgnore
-	private Date processingDate; // for transaction
-
+	 
 	@Override
-	public void setImage(String image) {
-		this.profileImage = image;
+	public UserModel toModel() {
+		UserModel model = new UserModel();
+		if (null != pictures) {
+			pictures.forEach(p-> {
+				model.addPicture(p.toModel());
+			});
+		}
+		return copy(model, "pictures");
 	}
-
-	@Override
-	public String getImage() {
-		return this.profileImage;
-	}
+	 
 	 
 
 }

@@ -15,8 +15,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import com.fajar.rentmanagement.annotation.CustomEntity;
-import com.fajar.rentmanagement.annotation.FormField;
-import com.fajar.rentmanagement.constants.FieldType;
 import com.fajar.rentmanagement.constants.Gender;
 import com.fajar.rentmanagement.dto.model.CustomerModel;
 

@@ -60,12 +60,9 @@ public class DefaultApplicationProfileService {
 		ApplicationProfile profile = new ApplicationProfile();
 		profile.setName("Medical Inventory");
 		profile.setAbout("");
-		profile.setWebsite("http://localhost:3000");
-		profile.setIconUrl("DefaultIcon.BMP");
+		profile.setWebsite("http://localhost:3000"); 
 		profile.setColor("#1e1e1e");
-		profile.setFontColor("#f5f5f5");
-		profile.setBackgroundUrl("Profile_02adb5ae-40b3-4b79-bc5e-f93c0ea8644f.png");
-		profile.setPageIcon("ICO_8601834213.ico");
+		profile.setFontColor("#f5f5f5"); 
 		profile.setAppCode("MY_APP");
 		profile.setContact("somabangsa@gmail.com");
 		profile.setFooterIconClass(FontAwesomeIcon.COFFEE);
@@ -107,31 +104,18 @@ public class DefaultApplicationProfileService {
 		if (notEmpty(appProfile.getFontColor())) {
 			actualAppProfile.setFontColor(appProfile.getFontColor());
 		}
-		if (notEmpty(appProfile.getBackgroundUrl()) && appProfile.getBackgroundUrl().startsWith("data:image")) {
-			try {
-				String backgroundUrl = fileService.writeImage(ApplicationProfile.class.getSimpleName(), appProfile.getBackgroundUrl(), httpServletRequest);
-				actualAppProfile.setBackgroundUrl(backgroundUrl );
-			} catch ( Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
-		if (notEmpty(appProfile.getPageIcon()) && appProfile.getPageIcon().startsWith("data:image")) {
-			try {
-				String iconUrl = fileService.writeIcon(ApplicationProfile.class.getSimpleName(), appProfile.getPageIcon(), httpServletRequest);
-				actualAppProfile.setPageIcon(iconUrl );
-			} catch ( Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if (notEmpty(appProfile.getIconUrl()) && appProfile.getIconUrl().startsWith("data:image")) {
-			try {
-				String iconUrl = fileService.writeImage(ApplicationProfile.class.getSimpleName(), appProfile.getIconUrl(), httpServletRequest);
-				actualAppProfile.setIconUrl(iconUrl );
-			} catch ( Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		 
+//		if (null!=appProfile.getPictures()  && appProfile.getPictures().size() > 0) {
+//			imageUp
+//		}
+//		if (notEmpty(appProfile.getIconUrl()) && appProfile.getIconUrl().startsWith("data:image")) {
+//			try {
+//				String iconUrl = fileService.writeImage(ApplicationProfile.class.getSimpleName(), appProfile.getIconUrl(), httpServletRequest);
+//				actualAppProfile.setIconUrl(iconUrl );
+//			} catch ( Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 //		if (notEmpty(appProfile.getName())) {
 //			actualAppProfile.setName(appProfile.getName());
 //		}

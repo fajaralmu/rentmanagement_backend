@@ -15,7 +15,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.annotations.Formula;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -61,6 +60,8 @@ public class CriteriaBuilder {
 
 		this.setJoinColumnAliases();
 		log.info("=======CriteriaBuilder Field Filters: {}", fieldsFilter);
+		
+		
 	}
 
 	private Field getFieldByKeyName(String name) {
@@ -303,11 +304,14 @@ public class CriteriaBuilder {
 
 		}
 
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
 		if (onlyRowCount) {
 			return criteria;
 		}
 		
 		addOrderOffsetLimit(filter);  
+		
 		return criteria;
 
 	}

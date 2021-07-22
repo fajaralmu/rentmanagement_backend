@@ -60,7 +60,7 @@ public abstract class BaseModel<E extends BaseEntity> implements Serializable {
 
 	protected E getEntityNewInstance() throws Exception {
 		Dto dto = getClass().getAnnotation(Dto.class);
-		Objects.requireNonNull(dto);
+		Objects.requireNonNull(dto, "Not A @Dto");
 		Class<? extends BaseEntity> entityClass = this.getTypeArgument();
 		E instance = (E) entityClass.newInstance();
 		return instance;

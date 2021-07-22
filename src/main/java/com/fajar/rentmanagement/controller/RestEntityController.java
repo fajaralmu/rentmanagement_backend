@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,13 @@ public class RestEntityController extends BaseController {
 		log.info("get entity {}", request);
 		return entityService.filter(request, httpRequest);
 
+	}
+	@PostMapping(value = "/getone/{entity}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public WebResponse getOne(@PathVariable(name="entity")String entity, 
+			@PathVariable(name="id") Long id, HttpServletRequest httpRequest) {
+		 
+		return entityService.getOne(entity,  id);
+		
 	}
 
 	@PostMapping(value = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

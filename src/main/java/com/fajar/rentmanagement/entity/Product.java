@@ -15,7 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.BatchSize;
 
 import com.fajar.rentmanagement.annotation.CustomEntity;
 import com.fajar.rentmanagement.dto.model.ProductModel;
@@ -25,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 /**
  * 
@@ -54,16 +58,17 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	@ManyToOne 
 	@JoinColumn(name = "unit_id")
 	private Unit unit;  
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER) 
+	
+	@Default
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
 	@JoinTable(name = "product_pictures", 
 			joinColumns = { @JoinColumn(name = "product_id") }, 
 			inverseJoinColumns = { @JoinColumn(name = "picture_id") }) 
+	@BatchSize(size = 100)
 	private Set<Picture> pictures = new HashSet<>();
 	
 	public void addPicture(Picture entity) {
-		if (null == pictures) {
-			pictures =new HashSet<>();
-		}
+		validatePictures();
 		pictures.add(entity);
 	}
 	

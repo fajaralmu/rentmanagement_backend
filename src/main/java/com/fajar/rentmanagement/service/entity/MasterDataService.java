@@ -1,6 +1,5 @@
 package com.fajar.rentmanagement.service.entity;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,15 +21,12 @@ import com.fajar.rentmanagement.entity.BaseEntity;
 import com.fajar.rentmanagement.entity.setting.EntityManagementConfig;
 import com.fajar.rentmanagement.entity.setting.EntityProperty;
 import com.fajar.rentmanagement.exception.ApplicationException;
+import com.fajar.rentmanagement.exception.DataNotFoundException;
 import com.fajar.rentmanagement.repository.CustomRepositoryImpl;
 import com.fajar.rentmanagement.repository.DatabaseProcessor;
 import com.fajar.rentmanagement.repository.EntityRepository;
 import com.fajar.rentmanagement.util.EntityUtil;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -199,6 +195,15 @@ public class MasterDataService {
 			
 			return null;
 		}
+	}
+
+	public WebResponse getOne(String entityName, Long id) {
+		EntityManagementConfig entityConfig = getEntityManagementConfig(entityName);
+		if (null == entityConfig) {
+			throw new DataNotFoundException("entity :"+entityName+" not found");
+		}
+		BaseEntity entity = entityRepository.findById(entityConfig.getEntityClass(), id);
+		return WebResponse.builder().entity(entity.toModel()).build() ;
 	}
 
 }

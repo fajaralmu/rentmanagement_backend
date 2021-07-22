@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fajar.rentmanagement.annotation.Dto;
+import com.fajar.rentmanagement.annotation.FormField;
+import com.fajar.rentmanagement.constants.FieldType;
 import com.fajar.rentmanagement.entity.Authority;
 import com.fajar.rentmanagement.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,12 +32,16 @@ public class UserModel extends BaseModel<User>{
 	private static final long serialVersionUID = -3896877759244837620L;
 	private String username;
 	private String displayName;
+	
+	@JsonIgnore
 	private String password;
 	private String profileImage;
 
 	@Default
 	private Set<AuthorityModel> authorities = new HashSet<>();
-
+	
+	@Default
+	private Set<PictureModel> pictures = new HashSet<>();
 	@JsonIgnore
 	private String requestId; 
 
@@ -49,6 +55,13 @@ public class UserModel extends BaseModel<User>{
 		}
 		user.setAuthorities(_authorities );
 		return user;
+	}
+
+	public void addPicture(PictureModel model) { 
+		if (null == pictures) {
+			pictures = new HashSet<>();
+		}
+		pictures.add(model);
 	}
 	
 }

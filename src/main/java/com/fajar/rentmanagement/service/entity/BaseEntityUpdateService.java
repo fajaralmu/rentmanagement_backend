@@ -16,7 +16,6 @@ import com.fajar.rentmanagement.entity.BaseEntity;
 import com.fajar.rentmanagement.entity.User;
 import com.fajar.rentmanagement.entity.setting.EntityUpdateInterceptor;
 import com.fajar.rentmanagement.entity.setting.MultipleImageModel;
-import com.fajar.rentmanagement.entity.setting.SingleImageModel;
 import com.fajar.rentmanagement.repository.EntityRepository;
 import com.fajar.rentmanagement.service.SessionValidationService;
 import com.fajar.rentmanagement.service.resources.FileService;
@@ -140,10 +139,10 @@ public class BaseEntityUpdateService<T extends BaseEntity> {
 							field.set(object, field.get(existingEntity));
 							break; 
 						} 
-						if (object instanceof SingleImageModel) {
-							log.info("{} is instance of SingleImageModel", object.getClass());
-							imageUploadService.uploadImage((SingleImageModel) object, httpServletRequest);
-						}
+//						if (object instanceof SingleImageModel) {
+//							log.info("{} is instance of SingleImageModel", object.getClass());
+//							imageUploadService.uploadImage((SingleImageModel) object, httpServletRequest);
+//						}
 						if (object instanceof MultipleImageModel) {
 							log.info("{} is multiple image model", object.getClass());
 							if (newRecord) {
@@ -153,35 +152,8 @@ public class BaseEntityUpdateService<T extends BaseEntity> {
 								imageUploadService.updateImages((MultipleImageModel) object, existing , httpServletRequest);
 							}
 						}
-//						if (isUpdateRecord &&  fieldValue.equals(field.get(existingEntity))) {
-//							Object existingImage = field.get(existingEntity);
-//							log.info("existingImage : {}", existingImage);
-//							if ( existingImage.equals(fieldValue)) {
-//								field.set(object, existingImage);
-//							}
-//						} else {
-//							String imageName = updateImage(field, object, formfield.iconImage());
-//							field.set(object, imageName);
-//						}
+//					
 						break;
-//					case FIELD_TYPE_FIXED_LIST:
-//						
-//						if (formfield.multipleSelect()) {
-//							String storeToFieldName = field.getAnnotation(StoreValueTo.class).value(); 
-//							
-//							Field idField = CollectionUtil.getIDFieldOfUnderlyingListType(field);
-//							Field storeToField = EntityUtil.getDeclaredField(object.getClass(), storeToFieldName);
-//							
-//							Object[] valueAsArray = ((Collection) fieldValue).toArray(); 
-//							CharSequence[] actualFieldValue = new String[valueAsArray.length];
-//							
-//							for (int j = 0; j < valueAsArray.length; j++) {
-//								actualFieldValue[j] = String.valueOf(idField.get(valueAsArray[j]));
-//							}
-//							
-//							storeToField.set(object, String.join("~", actualFieldValue));
-//						}
-//						break;
 					default:
 						break;
 					}

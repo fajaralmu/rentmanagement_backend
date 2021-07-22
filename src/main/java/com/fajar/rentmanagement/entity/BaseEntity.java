@@ -174,7 +174,7 @@ public class BaseEntity<M extends BaseModel> implements Serializable {
 
 	protected M getEntityNewInstance() throws Exception {
 		CustomEntity customEntity = getClass().getAnnotation(CustomEntity.class);
-		Objects.requireNonNull(customEntity);
+		Objects.requireNonNull(customEntity, "NOT A @CustomEntity");
 		Class<? extends BaseModel> entityClass = getTypeArgument();
 		M instance = (M) entityClass.newInstance();
 		return instance;

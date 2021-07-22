@@ -123,9 +123,9 @@ public class DefaultUserService {
 			loggedUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		
-		if (user.getProfileImage() != null && !user.getProfileImage().isEmpty()) {
-			loggedUser.setProfileImage(user.getProfileImage());
-			imageUploadService.uploadImage(loggedUser, httpServletRequest);
+		if (user.getPictures() != null && !user.getPictures().isEmpty()) {
+			loggedUser.setPictures(user.getPictures());
+			imageUploadService.updateImages(user, loggedUser, httpServletRequest);
 		}
 		entityRepository.save(loggedUser);
 	}

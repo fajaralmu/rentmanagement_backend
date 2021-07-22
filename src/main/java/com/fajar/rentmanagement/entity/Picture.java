@@ -5,11 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fajar.rentmanagement.annotation.CustomEntity;
 import com.fajar.rentmanagement.dto.model.PictureModel;
 
 import lombok.Data;
 
 @Data
+@CustomEntity
 @Entity
 @Table(name = "picture")
 public class Picture extends BaseEntity<PictureModel> {

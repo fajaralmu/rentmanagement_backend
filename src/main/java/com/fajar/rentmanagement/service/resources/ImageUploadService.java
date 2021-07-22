@@ -1,10 +1,7 @@
 package com.fajar.rentmanagement.service.resources;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +12,7 @@ import org.springframework.stereotype.Service;
 import com.fajar.rentmanagement.entity.BaseEntity;
 import com.fajar.rentmanagement.entity.Picture;
 import com.fajar.rentmanagement.entity.setting.MultipleImageModel;
-import com.fajar.rentmanagement.entity.setting.SingleImageModel;
 import com.fajar.rentmanagement.repository.EntityRepository;
-import com.fajar.rentmanagement.util.CollectionUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,41 +26,15 @@ public class ImageUploadService {
 	@Autowired
 	private ImageRemovalService imageRemovalService;
 
-	/**
-	 * upload single image
-	 * 
-	 * @param singleImageModel
-	 * @return
-	 */
-	public String uploadImage(SingleImageModel singleImageModel, HttpServletRequest httpServletRequest) {
-
-		String image = singleImageModel.getImage();
-		if (image != null && image.startsWith("data:image")) {
-
-			if (null != singleImageModel.getId()) {
-				removeOldImage(singleImageModel);
-			}
-			try {
-				String savedFileName = fileService.writeImage(singleImageModel.getClass().getSimpleName(), image, httpServletRequest);
-				singleImageModel.setImage(savedFileName);
-				return savedFileName;
-			} catch (IOException e) {
-				e.printStackTrace();
-				singleImageModel.setImage(null);
-			}
-
-		}
-		return image;
-	}
-
-	private void removeOldImage(SingleImageModel singleImageModel) {
-		BaseEntity existingRecord = entityRepository.findById(((BaseEntity)singleImageModel).getClass(), singleImageModel.getId());
+	 
+	private void removeOldImage(MultipleImageModel model) {
+		BaseEntity existingRecord = entityRepository.findById(((BaseEntity)model).getClass(), model.getId());
 		if (null == existingRecord) {
 			return;
 		}
-		SingleImageModel existingImageModel = (SingleImageModel) existingRecord;
-		if (null != existingImageModel.getImage()) {
-			imageRemovalService.removeImage(existingImageModel.getImage());
+		MultipleImageModel existingImageModel = (MultipleImageModel) existingRecord;
+		for (Picture picture : existingImageModel.getPictures()) {
+			imageRemovalService.removeImage(picture.getName());
 		}
 	}
 
