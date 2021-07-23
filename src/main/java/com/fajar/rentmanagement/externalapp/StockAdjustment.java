@@ -38,7 +38,7 @@ public class StockAdjustment {
 			System.out.println("productSupplyFlows: "+productSupplyFlows.size());
 			for (Object productSupplyFlow : productSupplyFlows) {
 				TransactionItem pf = (TransactionItem) productSupplyFlow;
-				pf.resetUsedCount();
+//				pf.resetUsedCount();
 				productFlowMap.put(pf.getId(), pf);
 			}
 
@@ -48,7 +48,7 @@ public class StockAdjustment {
 			 
 			for (Object object : productUsedFlows) {
 				TransactionItem pf = (TransactionItem) object;
-				productFlowMap.get(pf.getReferenceProductFlow().getId()).addUsedCount(pf.getCount());
+//				productFlowMap.get(pf.getReferenceProductFlow().getId()).addUsedCount(pf.getCount());
 
 			}
 			System.out.println("SUPPLY: "+productFlowMap.keySet().size());
@@ -84,26 +84,26 @@ public class StockAdjustment {
 			flows.add(pf);
 		}
 		Map<Long, com.fajar.rentmanagement.entity.Transaction> editedTranMap = new HashMap<>();
-		for (TransactionItem productFlow : flows) {
-			com.fajar.rentmanagement.entity.Transaction refTransactionSupply = productFlow.getReferenceProductFlow().getTransaction();
-			com.fajar.rentmanagement.entity.Transaction refTransaction = productFlow .getTransaction();
-			System.out.println("refTransactionSupply:"+refTransactionSupply.getId()+" at "+refTransactionSupply.getTransactionDate());
-			System.out.println("refTransaction: "+refTransaction.getId()+" at "+refTransaction.getTransactionDate());
-			boolean usedBeforeSupply = refTransaction.getTransactionDate().before(refTransactionSupply.getTransactionDate());
-			System.out.println("usedBeforeSupply: "+usedBeforeSupply);
-			System.out.println("");
-			if (null == editedTranMap.get(refTransactionSupply.getId()) ) {
-				editedTranMap.put(refTransactionSupply.getId(), refTransactionSupply);
-//				session.merge(refTransactionSupply);
-			}
-			if (editedTranMap.get(refTransactionSupply.getId()).getTransactionDate().after( refTransaction.getTransactionDate())) {
-				System.out.println("WILL UPDATE");
-				editedTranMap.get(refTransactionSupply.getId()).setTransactionDate(refTransaction.getTransactionDate());
-			} else {
-				System.out.println("##NO UPDATE");
-			}
-			
-		}
+//		for (TransactionItem productFlow : flows) {
+//			com.fajar.rentmanagement.entity.Transaction refTransactionSupply = productFlow.getReferenceProductFlow().getTransaction();
+//			com.fajar.rentmanagement.entity.Transaction refTransaction = productFlow .getTransaction();
+//			System.out.println("refTransactionSupply:"+refTransactionSupply.getId()+" at "+refTransactionSupply.getTransactionDate());
+//			System.out.println("refTransaction: "+refTransaction.getId()+" at "+refTransaction.getTransactionDate());
+//			boolean usedBeforeSupply = refTransaction.getTransactionDate().before(refTransactionSupply.getTransactionDate());
+//			System.out.println("usedBeforeSupply: "+usedBeforeSupply);
+//			System.out.println("");
+//			if (null == editedTranMap.get(refTransactionSupply.getId()) ) {
+//				editedTranMap.put(refTransactionSupply.getId(), refTransactionSupply);
+////				session.merge(refTransactionSupply);
+//			}
+//			if (editedTranMap.get(refTransactionSupply.getId()).getTransactionDate().after( refTransaction.getTransactionDate())) {
+//				System.out.println("WILL UPDATE");
+//				editedTranMap.get(refTransactionSupply.getId()).setTransactionDate(refTransaction.getTransactionDate());
+//			} else {
+//				System.out.println("##NO UPDATE");
+//			}
+//			
+//		}
 		tx.commit();
 		session.close();
 		System.exit(0);

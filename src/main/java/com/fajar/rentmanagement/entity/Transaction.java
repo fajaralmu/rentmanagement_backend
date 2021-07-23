@@ -147,6 +147,14 @@ public class Transaction extends BaseEntity<TransactionModel> implements Seriali
 		}
 		return copy(model, "items");
 	}
+
+	public void setItemsAndRemoveAssociation(List<TransactionItem> items2) {
+		for (TransactionItem transactionItem : items2) {
+			transactionItem.setTransaction(null);
+		}
+		setItems(items2);
+		
+	}
 	 
 
 }

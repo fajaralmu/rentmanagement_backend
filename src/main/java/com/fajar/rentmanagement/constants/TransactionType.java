@@ -8,6 +8,6 @@ package com.fajar.rentmanagement.constants;
  
 public enum TransactionType{
 	
-	TRANS_IN, TRANS_OUT,
+	TRANS_IN, TRANS_OUT, TRANS_OUT_OF_ORDER
 	
 }

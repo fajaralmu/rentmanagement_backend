@@ -69,7 +69,7 @@ public class TransactionModel extends BaseModel<Transaction> {
 		items.forEach(p -> {
 			entity.addItem(p.toEntity());
 		});
-		return copy(entity, "productFlows");
+		return copy(entity, "items");
 	}
 
 	public void addItem(TransactionItemModel productFlow) {

@@ -58,7 +58,7 @@ public class DefaultApplicationProfileService {
 
 	private ApplicationProfile saveDefaultProfile() {
 		ApplicationProfile profile = new ApplicationProfile();
-		profile.setName("Medical Inventory");
+		profile.setName("Rent Management");
 		profile.setAbout("");
 		profile.setWebsite("http://localhost:3000"); 
 		profile.setColor("#1e1e1e");
