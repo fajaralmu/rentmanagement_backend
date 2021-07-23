@@ -15,21 +15,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fajar.rentmanagement.annotation.CustomEntity;
 import com.fajar.rentmanagement.dto.model.ProductModel;
 import com.fajar.rentmanagement.entity.setting.MultipleImageModel;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Builder.Default;
 
 /**
  * 
@@ -38,10 +34,7 @@ import lombok.Builder.Default;
 @CustomEntity 
 @Entity
 @Table(name = "product")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Data  
 public class Product extends BaseEntity<ProductModel> implements MultipleImageModel {
 
 	/**
@@ -60,7 +53,7 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	@JoinColumn(name = "unit_id")
 	private Unit unit;  
 	
-	@Default
+	@Fetch (FetchMode.SELECT)	 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
 	@JoinTable(name = "product_pictures", 
 			joinColumns = { @JoinColumn(name = "product_id") }, 
@@ -68,7 +61,9 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	
 	private Set<Picture> pictures = new HashSet<>();
 	
-	
+	public Product() {
+		pictures = new HashSet<>();
+	}
 	@Transient
 	private int count;
 	
@@ -87,10 +82,7 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 			});
 		}
 		return copy(model, "pictures");
-	}
-
-
-	 
+	} 
 	  
 	
 

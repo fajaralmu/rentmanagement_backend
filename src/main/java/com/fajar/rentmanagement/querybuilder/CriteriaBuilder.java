@@ -10,10 +10,12 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
@@ -57,10 +59,22 @@ public class CriteriaBuilder {
 		this.criteria = this.hibernateSession.createCriteria(entityClass, entityClass.getSimpleName());
 		this.fieldsFilter = filter.getFieldsFilter();
 		this.entityDeclaredFields = EntityUtil.getDeclaredFields(entityClass);
-
+		this.initCriteria();
 		this.setJoinColumnAliases();
 		log.info("=======CriteriaBuilder Field Filters: {}", fieldsFilter);
 		
+		
+	}
+
+	private void initCriteria() {
+		
+		List<Field> fields = EntityUtil.getDeclaredFields(entityClass);
+		for (Field field : fields) {
+			if (field.getAnnotation(ManyToMany.class) == null) {
+				continue;
+			}
+			criteria.setFetchMode(field.getName(), FetchMode.SELECT);
+		}
 		
 	}
 
