@@ -11,18 +11,18 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class CommonUpdateService extends BaseEntityUpdateService<BaseEntity> {
+public class CommonUpdateService<T extends BaseEntity > extends BaseEntityUpdateService<T> {
 
 	
 	@Override
-	public BaseEntity saveEntity(BaseEntity entity, boolean newRecord, HttpServletRequest httpServletRequest) {
+	public T saveEntity(T entity, boolean newRecord, HttpServletRequest httpServletRequest) {
 		log.info("saving entity: {}", entity.getClass());
 		entity = copyNewElement(entity, newRecord);
 		
 		validateEntityFormFields(entity, newRecord, httpServletRequest);
 		
 		interceptPreUpdate(entity);
-		BaseEntity newEntity = entityRepository.save(entity);
+		T newEntity = entityRepository.save(entity);
 		return newEntity;
 	}
 

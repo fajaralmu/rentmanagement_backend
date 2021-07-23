@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 
@@ -67,6 +68,10 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	
 	private Set<Picture> pictures = new HashSet<>();
 	
+	
+	@Transient
+	private int count;
+	
 	public void addPicture(Picture entity) {
 		validatePictures();
 		pictures.add(entity);
@@ -83,6 +88,9 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 		}
 		return copy(model, "pictures");
 	}
+
+
+	 
 	  
 	
 

@@ -10,6 +10,7 @@ import java.util.Set;
 import com.fajar.rentmanagement.annotation.Dto;
 import com.fajar.rentmanagement.annotation.FormField;
 import com.fajar.rentmanagement.constants.FieldType;
+import com.fajar.rentmanagement.constants.Filterable;
 import com.fajar.rentmanagement.entity.Product;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -20,7 +21,7 @@ import lombok.Data;
  * 
  * @author fajar
  */
-@Dto( value= "Produk") 
+@Dto( value= "Produk", updateService = "productUpdateService") 
 @JsonInclude(value = Include.NON_NULL)
 @Data
 public class ProductModel extends BaseModel<Product>{
@@ -41,7 +42,8 @@ public class ProductModel extends BaseModel<Product>{
 	private UnitModel unit;
 	@FormField(multipleImage = true, type = FieldType.FIELD_TYPE_IMAGE)
 	private Set<PictureModel> pictures = new HashSet<>();
- 
+	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, editable = false, filterable = Filterable.DISABLE_ALL)
+	private int count;
 	 
 	@Override
 	public Product toEntity() {

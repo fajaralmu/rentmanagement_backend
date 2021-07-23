@@ -23,7 +23,9 @@ import com.fajar.rentmanagement.entity.TransactionItem;
 import com.fajar.rentmanagement.service.SessionValidationService;
 
 import io.jsonwebtoken.lang.Assert;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class TransactionService {
 	
@@ -55,6 +57,9 @@ public class TransactionService {
 			}
 			tx.commit();
 			transaction.setItemsAndRemoveAssociation(items);
+			
+			log.info("saved items: {}", items.size());
+			
 			return WebResponse.builder().transaction(transaction.toModel()).build();
 		} catch (Exception e) {
 			if (null != tx) {
