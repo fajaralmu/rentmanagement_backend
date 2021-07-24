@@ -18,9 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import com.fajar.rentmanagement.annotation.CustomEntity;
 import com.fajar.rentmanagement.dto.model.ProductModel;
 import com.fajar.rentmanagement.entity.setting.MultipleImageModel;
@@ -53,7 +50,10 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	@JoinColumn(name = "unit_id")
 	private Unit unit;  
 	
-	@Fetch (FetchMode.SELECT)	 
+	@Column
+	private double price;
+	
+//	@Fetch (FetchMode.SELECT)	-> MULTIPLE query 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
 	@JoinTable(name = "product_pictures", 
 			joinColumns = { @JoinColumn(name = "product_id") }, 

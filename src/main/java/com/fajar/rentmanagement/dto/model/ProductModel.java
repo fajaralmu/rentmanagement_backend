@@ -36,10 +36,13 @@ public class ProductModel extends BaseModel<Product>{
 	private String code;
 	@FormField
 	private String name;
-	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, required = false)
-	private String description;
 	@FormField(type = FieldType.FIELD_TYPE_FIXED_LIST, optionItemName = "name")
 	private UnitModel unit;
+	@FormField(type = FieldType.FIELD_TYPE_NUMBER, required = true)
+	private double price;
+	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, required = false)
+	private String description;
+	
 	@FormField(multipleImage = true, type = FieldType.FIELD_TYPE_IMAGE)
 	private Set<PictureModel> pictures = new HashSet<>();
 	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, editable = false, filterable = Filterable.DISABLE_ALL)
