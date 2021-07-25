@@ -42,7 +42,8 @@ public class ProductModel extends BaseModel<Product>{
 	private double price;
 	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, required = false)
 	private String description;
-	
+	@FormField(type = FieldType.FIELD_TYPE_CHECKBOX)
+	private boolean forRent;
 	@FormField(multipleImage = true, type = FieldType.FIELD_TYPE_IMAGE)
 	private Set<PictureModel> pictures = new HashSet<>();
 	@FormField(type = FieldType.FIELD_TYPE_TEXTAREA, editable = false, filterable = Filterable.DISABLE_ALL)

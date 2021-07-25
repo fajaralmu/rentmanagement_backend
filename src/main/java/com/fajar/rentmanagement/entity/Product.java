@@ -50,6 +50,9 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	@JoinColumn(name = "unit_id")
 	private Unit unit;  
 	
+	@Column(name="for_rent")
+	private boolean forRent;
+
 	@Column
 	private double price;
 	
