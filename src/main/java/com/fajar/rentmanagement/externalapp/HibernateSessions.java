@@ -41,26 +41,7 @@ public class HibernateSessions {
 	}
  
 
-	private static Properties additionalPropertiesPostgresOffline() {
-
-		String dialect = "org.hibernate.dialect.PostgreSQLDialect";
-		String ddlAuto = "update";
-
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", dialect);
-		properties.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/universal_commerce");
-		properties.setProperty("hibernate.connection.username", "postgres");
-		properties.setProperty("hibernate.connection.password", "root");
-
-		properties.setProperty("hibernate.connection.driver_class", org.postgresql.Driver.class.getCanonicalName());
-		properties.setProperty("hibernate.current_session_context_class", "thread");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("hibernate.connection.pool_size", "1");
-		properties.setProperty("hbm2ddl.auto", ddlAuto);
-
-		return properties;
-	}
-
+ 
 	private static Properties additionalPropertiesPostgres() {
 
 		String dialect = "org.hibernate.dialect.PostgreSQLDialect";

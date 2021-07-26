@@ -52,6 +52,9 @@ public class Product extends BaseEntity<ProductModel> implements MultipleImageMo
 	
 	@Column(name="for_rent")
 	private boolean forRent;
+	
+	@Column
+	private boolean available;
 
 	@Column
 	private double price;

@@ -309,9 +309,9 @@
 					<target>${java.version}</target>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					
-					<warSourceExcludes>**/fajar/rentmanagement/externalapp/**</warSourceExcludes>
+					<!-- <warSourceExcludes>**/fajar/rentmanagement/externalapp/**</warSourceExcludes>
 					
-					<packagingExcludes>**/rentmanagement/externalapp/**</packagingExcludes>
+					<packagingExcludes>**/rentmanagement/externalapp/**</packagingExcludes> -->
 				</configuration>
 			</plugin>
 			<plugin>

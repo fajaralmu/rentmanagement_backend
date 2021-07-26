@@ -29,10 +29,12 @@ public class TypeScriptModelCreators {
 		for (String name : fileNames) {
 			Class _class;
 			try {
+				 
 				_class = Class.forName(packageName + "." + name);
+				
 				classes.add(_class);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				System.out.println("Error has been caught");
 				e.printStackTrace();
 			}
 		}
